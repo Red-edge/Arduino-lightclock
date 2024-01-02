@@ -37,7 +37,7 @@ int DelayLig = 0;             //灯光延时时间，单位为毫秒
 //int ticVal = 1;             //tick延时函数的输出间隔，单位为毫秒
 int curMil = 0;
 int preMil = 0;               //此及前参数用于tick，无需设置
-int DDL = 20000;              //用于薄纱模式倒计时，单位毫秒
+int DDL = 3000;              //用于薄纱模式倒计时，单位毫秒
 
 void setup() {
   // 初始化设置
@@ -46,6 +46,8 @@ void setup() {
   for (int k = 0; k < 4; k++) {
     pinMode(ledPins[k], OUTPUT);
   }
+  pinMode(pwmPins[0], OUTPUT);
+  digitalWrite(pwmPins[0],HIGH);
 }
 
 //tick用于将内部时钟以自定义时间间隔输出模拟信号
@@ -68,8 +70,8 @@ void setup() {
 
 void buzzer() {
   Buzfre = millis();
-  Buzmax = 400;
-  Buzmin = 200;
+  Buzmax = 600;
+  Buzmin = 300;
   // if (millis() <= DelayBuz) {
   //   return;
   // }
@@ -77,9 +79,9 @@ void buzzer() {
     Buzfre -= Buzmax;
   }//可优化
   if (Buzfre >= Buzmin) {
-    pinMode(pwmPins[0], OUTPUT);
+    digitalWrite(pwmPins[0],HIGH);
   } else {
-    pinMode(pwmPins[0], INPUT);
+    digitalWrite(pwmPins[0],LOW);
   }
 }
 
@@ -151,8 +153,8 @@ void loop() {
     Police();
     //Led();
   }
-
-  Serial.println("输出四路灯光信号和一路蜂鸣器信号");
+  //pinMode(pwmPins[0], OUTPUT);
+  Serial.println(float(millis()/1000.0f),DEC);
 
   // 其他的循环操作
 }
